@@ -78,32 +78,7 @@ Task No & Planned Action                                                        
 2. Filtering using moving average
 3. 
 
-### 1. Filtering using moving average
-
-Things to explain: a) what problem are you trying to solve (what success criteria), b) demonstrate your technical
-understanding, c) algorithmic thinking.
-
-Ex: To solve SC#1 I encounter the problem that the values from teh sensors are noisy due to the changes in the
-temperature and other variables. I thougt about using an algorithm to filter the data and smooth it. After some reseach
-I decided to use the moving average. To make things more sustainable and organized I decided to use a function to
-implemented the moving average and placed it in a library.
-```.py
-def moving_average(windowSize:int, x:list)->list:
-    # this function  has a purpose XXXX
-    #The inputs are XXXXX
-    # the output is xxxx
-    x_smoothed = []
-    for i in range(0, len(x)-windowSize):
-        x_section = x[i:i+windowSize]
-        x_average = sum(x_section)/windowSize
-        x_smoothed += [x_average]
-
-    return x_smoothed
-```
-In the code above, we can see that the function signature includes two inputs, ```windowSize:int ``` is the size used for filtering which is of
-data type integer.....
-
-### 2. API communication with remote server
+### 1. API communication with remote server
 
 To solve SC#5: data backup to a remote server, and address SC#1/SC#3/SC#4: acquire data from a remote location, we needed a way to pull and push data to a server from both Raspberry Pi and personal computer. We used UWC ISAK Japan Weather API as our server: a centralized database for values such as temperature, humidity and atmospheric pressure measured regularly on campus. In order to communicate with the server, we used an HTTP python library called Requests, which enable us to get and post data with simple coding.
 ```.py
@@ -135,7 +110,32 @@ auth = {"Authorization": f"Bearer {cookie}"}
 new_record = {"sensor_id":203, "value":temp_dht, "datetime":now}  # temp_dht: value read from DHT11  now: datetime.now()
 answer = requests.post(f'http://{server_ip}/reading/new', json = new_record, headers = auth)
 ```
-This is a basic representation of the upload procedure from the Raspberry Pi to the server. 
+This is a basic representation of the upload procedure from the Raspberry Pi to the server. Authorization is done using the .post method towards the login url, which will send a POST request with the username and password for a user which already had been registered to the server. Its answer provides an access token which can be used for the header for posting the sensor values. The posting of the data is also done using the .post method but now directed towards new readings url, taking the dictionary object which will be converted to json.
+
+### 2. Filtering using moving average
+
+Things to explain: a) what problem are you trying to solve (what success criteria), b) demonstrate your technical
+understanding, c) algorithmic thinking.
+
+Ex: To solve SC#1 I encounter the problem that the values from teh sensors are noisy due to the changes in the
+temperature and other variables. I thougt about using an algorithm to filter the data and smooth it. After some reseach
+I decided to use the moving average. To make things more sustainable and organized I decided to use a function to
+implemented the moving average and placed it in a library.
+```.py
+def moving_average(windowSize:int, x:list)->list:
+    # this function  has a purpose XXXX
+    #The inputs are XXXXX
+    # the output is xxxx
+    x_smoothed = []
+    for i in range(0, len(x)-windowSize):
+        x_section = x[i:i+windowSize]
+        x_average = sum(x_section)/windowSize
+        x_smoothed += [x_average]
+
+    return x_smoothed
+```
+In the code above, we can see that the function signature includes two inputs, ```windowSize:int ``` is the size used for filtering which is of
+data type integer.....
 
 # Criteria D: Functionality
 
