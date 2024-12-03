@@ -23,12 +23,12 @@ Considering the budgetary constrains of the client and the hardware requirements
 [^7]:Real Python. “Python vs C++: Selecting the Right Tool for the Job.” Real Python, Real Python, 19 June 2021, https://realpython.com/python-vs-cpp/#memory-management. 
 
 1. The solution provides a visual representation of the Humidity, Temperature and atmospheric pressure (HL) values inside a dormitory (Local) and outside the house (Remote) for a period of minimum 48 hours. ```** [Issue tacled] **: My client's lack of environmental monitoring equipments has been resolved now. ```
-1. The local variables will be measure using a set of sensors around the dormitory.```** [Issue tacled] **: Client can get more accurate data for both indoor and outdoor conditions. ```
-2. The solution provides a mathematical modelling for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations. ```** [Issue tacled] **: It captures the tendency of the data and makes it easy to read, therefore it is appropriate for daily use. ```
-3. The solution provides a comparative analysis for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations including mean, standad deviation, minimum, maximum, and median. ```** [Issue tacled] **: The solution highlights potential disparities and their implications for plant growth.  ```
-4. The Local samples are posted to the remote server as a backup. ```** [Issue tacled] **: It ensures data integrity and accessibility for future reference and analysis.```
-5. The solution provides a prediction for the subsequent 12 hours for Humidity, Temperature and atmospheric pressure (HL). ```** [Issue tacled] **: By foreseeing the values, my client can take timely actions even in his busy times.```
-6. The solution includes a poster summarizing the visual representations, model and analysis created. The poster includes a recommendation about healthy levels for Humidity, Temperature and atmospheric pressure (HL). ```** [Issue tacled] **: It provides concise and clear documentation for academic or other purposes.```
+2. The local variables will be measure using a set of sensors around the dormitory.```** [Issue tacled] **: Client can get more accurate data for both indoor and outdoor conditions. ```
+3. The solution provides a mathematical modelling for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations. ```** [Issue tacled] **: It captures the tendency of the data and makes it easy to read, therefore it is appropriate for daily use. ```
+4. The solution provides a comparative analysis for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations including mean, standad deviation, minimum, maximum, and median. ```** [Issue tacled] **: The solution highlights potential disparities and their implications for plant growth.  ```
+5. The Local samples are posted to the remote server as a backup. ```** [Issue tacled] **: It ensures data integrity and accessibility for future reference and analysis.```
+6. The solution provides a prediction for the subsequent 12 hours for Humidity, Temperature and atmospheric pressure (HL). ```** [Issue tacled] **: By foreseeing the values, my client can take timely actions even in his busy times.```
+7. The solution includes a poster summarizing the visual representations, model and analysis created. The poster includes a recommendation about healthy levels for Humidity, Temperature and atmospheric pressure (HL). ```** [Issue tacled] **: It provides concise and clear documentation for academic or other purposes.```
 
 _TOK Connection: To what extent does ```the use of data science``` in climate research influence our understanding of environmental issues, and what knowledge questions arise regarding the ```reliability, interpretation, and ethical implications``` of data-driven approaches in addressing climate change_
 
@@ -103,6 +103,39 @@ def moving_average(windowSize:int, x:list)->list:
 In the code above, we can see that the function signature includes two inputs, ```windowSize:int ``` is the size used for filtering which is of
 data type integer.....
 
+### 2. API communication with remote server
+
+To solve SC#5: data backup to a remote server, and address SC#1/SC#3/SC#4: acquire data from a remote location, we needed a way to pull and push data to a server from both Raspberry Pi and personal computer. We used UWC ISAK Japan Weather API as our server: a centralized database for values such as temperature, humidity and atmospheric pressure measured regularly on campus. In order to communicate with the server, we used an HTTP python library called Requests, which enable us to get and post data with simple coding.
+```.py
+import requests
+
+server_ip = '192.168.4.137'
+request = requests.get(f'http://{server_ip}/readings')
+data = request.json()
+readings = data['readings'][0]
+
+sensor_205 = []
+
+for r in readings:
+    if r['sensor_id'] == 205:
+        print((r['value'],r['datetime']))
+```
+This is a basic representation of the pulling procedure to the personal computer from the server. The program first specifies the IP address of the server, then uses the .get method, which sends a GET request to the specified url. To the returned JSON response object, using .json() converts the body into a python object, in this case a dictionary. With appropriate arrangement of key access and "if" conditions, the program can acquire the desired data from a specific sensor or datetime.
+
+```.py
+import requests
+
+server_ip="192.168.4.137"
+user={ 'username':'example','password':'example'}
+
+answer= requests.post(f'http://{server_ip}/login', json=user)
+cookie=answer.json()['access_token']
+
+auth = {"Authorization": f"Bearer {cookie}"}
+new_record = {"sensor_id":203, "value":temp_dht, "datetime":now}  # temp_dht: value read from DHT11  now: datetime.now()
+answer = requests.post(f'http://{server_ip}/reading/new', json = new_record, headers = auth)
+```
+This is a basic representation of the upload procedure from the Raspberry Pi to the server. 
 
 # Criteria D: Functionality
 
