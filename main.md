@@ -50,7 +50,13 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 ## Data storing method
 
+### Online API Server
+The data of temperature, humidity, and pressure is being stored in an online API server: http://192.168.4.137/readings. Every 1 minute for 48 hours, the program will send data to the server. As there are 2 sensors, each minute, the server will receive a total of 5 data: 2 temperature data (DHT11 and BME280), 2 humidity data (DHT11 and BME280), and 1 atmospheric pressure data (only BME280) . The data will be sent to the server in a particular format. The following is an example of the 5 data sent each time:
+```.py
 
+{"sensor_id": 203, "value": 18.0, "datetime": "2024-12-04T22:40:00.016697", "id": 6181253}, {"sensor_id": 204, "value": 31.0, "datetime": "2024-12-04T22:40:00.016697", "id": 6181254}, {"sensor_id": 206, "value": 29.813148, "datetime": "2024-12-04T22:40:00.016697", "id": 6181255}, {"sensor_id": 210, "value": 884.3764, "datetime": "2024-12-04T22:40:00.016697", "id": 6181256}, {"sensor_id": 205, "value": 18.399817, "datetime": "2024-12-04T22:40:00.016697", "id": 6181257}
+
+```
 
 ## Test Plan
 
