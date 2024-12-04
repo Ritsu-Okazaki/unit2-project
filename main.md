@@ -43,6 +43,18 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 **Fig.1** Fig. 1 System diagram (HL+) for the proposed system to visualize and analyze temperature and humidity data in our campus. Physical variables measured with a network of DHT11/BMP280 sensors locally on a Raspberry Pi. A remote server provides and API for remote monitoring and storage (192.162.6.173) via the ISAK-S network. A laptop for remote work is included.
 
+
+## Flow diagrams for algorithms
+
+
+
+## Data storing method
+
+
+
+## Test Plan
+
+
 ## Record of Tasks
 | Task No | Planned Action                                                                                              | Planned Outcome                                                                              | Time Estimate | Target Completion Date | Criterion |
 |---------|-------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|---------------|------------------------|-----------|
@@ -66,7 +78,6 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 | 18      | To create scientific poster showing the visualization of the data and mathematical modeling                 | To accurately reflect the project's focus                                                    | 3 hours       | December 7             | C and D   |
 | 19      | Take 7 min video demonstrating the proposed solution with narration                                         | To achieve clear and concise explanation of the project, its results, and its implementation | 2 hours       | December 8             | D         |
 
-## Test Plan
 
 # Criteria C: Development (around 1000 word max)
 
