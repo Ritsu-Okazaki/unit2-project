@@ -57,6 +57,19 @@ The data of temperature, humidity, and pressure is being stored in an online API
 {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-04T22:40:00.016697", "id": 6181253}, {"sensor_id": 204, "value": 31.0, "datetime": "2024-12-04T22:40:00.016697", "id": 6181254}, {"sensor_id": 206, "value": 29.813148, "datetime": "2024-12-04T22:40:00.016697", "id": 6181255}, {"sensor_id": 210, "value": 884.3764, "datetime": "2024-12-04T22:40:00.016697", "id": 6181256}, {"sensor_id": 205, "value": 18.399817, "datetime": "2024-12-04T22:40:00.016697", "id": 6181257}
 
 ```
+Each data tells different information separated by commas, the first element tells the sensor id of one of the DHT 11 and BME280 sensors and each sensor represents some of temperature, humidity, and pressure. We set the sensors as follows :
+1. Sensor id 203 - the temperature sensor of DHT11
+2. Sensor id 204 - the humidity sensor of DHT11 
+3. Sensor id 205 - the temperature sensor of BME280 
+4. Sensor id 206 - the humidity sensor of BME280 
+5. Sensor id 210 - the pressure sensor of BME280 
+
+The second element, “value”, tells the value of either temperature(celcius), humidity(%), and the pressure(hPa). The third element “datetime”, tells the date (Year-Month-Day) and the time in hours, minutes, seconds, and milliseconds. The fourth element, “id” shows the id of the data. 
+
+For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-04T22:40:00.016697", "id": 6181253}, shows that the sensor detects temperature as the sensor id is “203”. It also shows that the temperature is 18 degrees Celsius, the id of this sensor is 6181253, and the date of the data is 4th December 2024 at 8pm 40 minutes.
+
+
+
 
 ## Test Plan
 
