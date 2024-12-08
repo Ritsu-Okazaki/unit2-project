@@ -65,7 +65,8 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 ![image](https://github.com/user-attachments/assets/6cdab434-2982-4260-8f15-9b59e9d2d0f0)
 
-**Fig.4** 
+
+**Fig.4** The flowchart outlines a process for fetching data from a server, filtering it based on a specific sensor ID, and then plotting the filtered data over time. The data is processed and visualized using various libraries, and a smoothing technique is applied to the plot for better readability.
 
 
 
