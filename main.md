@@ -53,6 +53,16 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 **Fig.2** 
 
+![image](https://github.com/user-attachments/assets/9ea1d165-8287-402b-b5ad-f920c1c2facc)
+
+**Fig.3** 
+![image](https://github.com/user-attachments/assets/6cdab434-2982-4260-8f15-9b59e9d2d0f0)
+
+**Fig.4** 
+
+
+
+
 ## Data storing method
 
 ### Online API Server
