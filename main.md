@@ -51,7 +51,7 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 ## Flow diagrams for algorithms
 ![image](https://github.com/user-attachments/assets/ca365701-0527-4dfe-9d98-3040e1117661)
 
-**Fig.2** 
+**Fig.2**  This flowchart describes the process of continuously reading sensor data, extracting relevant information, and sending it to a server for further processing. The process is repeated indefinitely, with a delay of 1 second between each iteration and a pause of 1 minute between each measurement.
 
 ![image](https://github.com/user-attachments/assets/9ea1d165-8287-402b-b5ad-f920c1c2facc)
 
