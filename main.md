@@ -49,8 +49,9 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 
 ## Flow diagrams for algorithms
+![image](https://github.com/user-attachments/assets/ca365701-0527-4dfe-9d98-3040e1117661)
 
-
+**Fig.2** 
 
 ## Data storing method
 
