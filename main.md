@@ -33,8 +33,12 @@ Considering the budgetary constrains of the client and the hardware requirements
 _TOK Connection: To what extent does ```the use of data science``` in climate research influence our understanding of environmental issues, and what knowledge questions arise regarding the ```reliability, interpretation, and ethical implications``` of data-driven approaches in addressing climate change_
 
 1. How does our use of technology shape our understanding of the environment
+```Technology greatly influences the perception of the environment because of the delivery of data, quite accurately and in real-time, that would have been impossible to retrieve without such systems. These data provide the capability of detecting subtle changes and patterns in environmental conditions that might not have been detected otherwise. But at the same time, it has to be recognized that it is our very technological toolsets that frame the perspective and so must considered. ```
 2. What responsibilities do we have as technologists when it comes to handling personal data related to our living spaces?
+```As personal data management technologists, interested in living spaces, data privacy and security should be observed. Transparency is needed in the methods of collection, storage, and usage of data, and consent shall be informed and obtained from the persons in whose living spaces the monitoring is conducted. Further, we are ethically committed to handling this kind of data responsibly, never misusing or exploiting personal information of any kind. ``` 
 3. What cultural and contextual factors might impact our interpretation of the results, especially when comparing our local readings with those from the campus? 
+```While cultural and contextual factors are generally important in data interpretation, their impact is minimal in our case of comparing local data to that of the school. Our focus on standardized measurements of temperature, humidity, and atmospheric pressure ensures objectivity, minimizing subjective influences. Any variations we observe are more likely due to differences in measurement locations or equipment rather than cultural interpretations.```
+
 
 # Criteria B: Design
 
