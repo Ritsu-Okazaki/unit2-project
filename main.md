@@ -91,8 +91,10 @@ The second element, “value”, tells the value of either temperature(celcius),
 
 For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-04T22:40:00.016697", "id": 6181253}, shows that the sensor detects temperature as the sensor id is “203”. It also shows that the temperature is 18 degrees Celsius, the id of this sensor is 6181253, and the date of the data is 4th December 2024 at 8pm 40 minutes.
 
+![image](https://github.com/user-attachments/assets/c5585a8d-6fdd-462e-99c8-4dfe81f1b9d1)
 
 
+**Fig.5** Shows a section of the online API server http://192.168.4.137/readings where the data is being stored in real time every 1 minute
 
 ## Test Plan
 | Test NO | Test Goal                                                                                                                                                                                                  | Test Description                                                                                                                                                             | Supposed Outcome                                                                              | Pass/Error |
