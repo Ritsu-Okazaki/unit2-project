@@ -95,7 +95,15 @@ For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-0
 
 
 ## Test Plan
-
+| Test NO | Test Goal                                                                                                                                                                                              | Test Description                       | Supposed Output | Pass/Error |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------|------------|
+| 1       | Verify that the system displays a visual representation of humidity, temperature,  and atmospheric pressure for both local (dormitory) and remote (outside) locations  for at least the past 48 hours. | Run the code success_criterion1.py on  |                 |            |
+| 2       |                                                                                                                                                                                                        |                                        |                 |            |
+| 3       |                                                                                                                                                                                                        |                                        |                 |            |
+| 4       |                                                                                                                                                                                                        |                                        |                 |            |
+| 5       |                                                                                                                                                                                                        |                                        |                 |            |
+| 6       |                                                                                                                                                                                                        |                                        |                 |            |
+| 7       |                                                                                                                                                                                                        |                                        |                 |            |
 
 ## Record of Tasks
 | Task No | Planned Action                                                                                              | Planned Outcome                                                                              | Time Estimate | Target Completion Date | Criterion |
