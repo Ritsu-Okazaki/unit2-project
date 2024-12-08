@@ -55,7 +55,14 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 ![image](https://github.com/user-attachments/assets/9ea1d165-8287-402b-b5ad-f920c1c2facc)
 
-**Fig.3** 
+
+
+**Fig.3** The flowchart demonstrates a smoothing function that reduces noise in a given dataset. It takes a window size and a list of raw data as input. The function iterates through the data, calculates the average of a window of data points, and appends the average to a new list. This process continues until all data points are processed, resulting in a smoothed dataset.
+
+
+
+
+
 ![image](https://github.com/user-attachments/assets/6cdab434-2982-4260-8f15-9b59e9d2d0f0)
 
 **Fig.4** 
