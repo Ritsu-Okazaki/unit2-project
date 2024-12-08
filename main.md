@@ -21,6 +21,8 @@ Considering the budgetary constrains of the client and the hardware requirements
 [^5]:BOSCH. "Humidity sensor BME280" Bosch Sensortec GmbH, https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/
 [^6]:Python Geeks. “Advantages of Python: Disadvantages of Python.” Python Geeks, 26 June 2021, https://pythongeeks.org/advantages-disadvantages-of-python/. 
 [^7]:Real Python. “Python vs C++: Selecting the Right Tool for the Job.” Real Python, Real Python, 19 June 2021, https://realpython.com/python-vs-cpp/#memory-management. 
+[^8]:Matplotlib Development Team. "Matplotlib: Visualization with Python", https://matplotlib.org/
+[^9]:Kenneth Reitz. "Requests: HTTP for Humans", https://requests.readthedocs.io/en/latest/
 
 1. The solution provides a visual representation of the Humidity, Temperature and atmospheric pressure values inside a dormitory (Local) and outside the house (Remote) for a period of minimum 48 hours. ```** [Issue tacled] **: My client's lack of environmental monitoring equipments has been resolved now. ```
 2. The local variables will be measure using a set of sensors around the dormitory.```** [Issue tacled] **: Client can get more accurate data for both indoor and outdoor conditions. ```
@@ -100,12 +102,13 @@ For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-0
 | Test NO | Test Goal                                                                                                                                                                                                  | Test Description                                                                                                                                                             | Supposed Outcome                                                                              | Pass/Error |
 |---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|------------|
 | 1       | Verify that the system displays a visual representation of humidity, temperature,  and atmospheric pressure for both local (dormitory) and remote (outside) locations  for at least the past 48 hours.     | Run the codes Abme280_dec4a5.py,Armt_nov24a25.py, Hbme280_dec4a5.py,Hdht11h_dec4a5.py,Hrmt_nov24a25.py, Tbme280_dec4a5.py,Tdht11h_dec4a5.py,Trmt_nov24a25.py for  each graph | For each code, output  showing the graph of  spesific value over 48 hours                     |            |
-| 2       | Verify that the local humidity, temperature, and atmospheric pressure values  are measured using a set of sensors placed around the dormitory.                                                             | Check the location.jpg and Setofsensors.jpg in github repository                                                                                                               | Photos of location and  a set of sensors                                                      |            |
+| 2       | Verify that the local humidity, temperature, and atmospheric pressure values  are measured using a set of sensors placed around the dormitory.                                                             | Check the evidence in documentation.md in github repository                                                                                                                  | Photos of location and  a set of sensors                                                      |            |
 | 3       | Verify that the graphs provide a mathematical model for values from both  local and remote sensors.                                                                                                        | Check whether there are octic lines in the graphs shown in the poster                                                                                                        | There are octic lines  in every graph                                                         |            |
 | 4       | Verify that the solution provides a comparative analysis of values from both local and remote sensors, including statistical measures like mean, standard deviation, minimum, maximum, and median.         | For temperature run comparative_temperature.py, For humidity run comparative_humidity.py, For pressure run comparative_pressure.py                                           | For the graph of each code, there are mean, standard deviation,  minimum, maximum, and median |            |
 | 5       | Verify that the local data is being sent to the remote server as a backup.                                                                                                                                 | Go to the link http://192.168.4.137/readings, check the values with the sensor id of 203,204, 205,206, and 210                                                               | In that link values with mentioned sensor ids                                                 |            |
 | 6       | Verify that the solution provides accurate predictions for from both local  and remote sensors values for the next 12 hours.                                                                               | Run the codes prediction_temperature.py and  prediction_humidity.py (take it from github repository-source codes)                                                            | For each graph, the output showing the  prediction graphs for subsequent 12 hours             |            |
-| 7       | Verify that the system includes a poster summarizing the visual representations,  model, and analysis, and provides recommendations for healthy levels of Humidity, Temperature, and atmospheric pressure. | Check the evidence in github repository                                                                                                                                      | Poster with the required features                                                             |            |
+| 7       | Verify that the system includes a poster summarizing the visual representations,  model, and analysis, and provides recommendations for healthy levels of Humidity, Temperature, and atmospheric pressure. | Check the evidence in github repository                                                                                                                                      | Poster with the required features                                                             |            |                                                          |                 |            |
+
 ## Record of Tasks
 | Task No | Planned Action                                                                                              | Planned Outcome                                                                              | Time Estimate | Target Completion Date | Criterion |
 |---------|-------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|---------------|------------------------|-----------|
@@ -136,11 +139,11 @@ For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-0
 
 1. API communication with remote server
 2. Filtering using moving average
-3. 
+3. Plotting x-axis with hourly format
 
 ### 1. API communication with remote server
 
-To solve SC#5: data backup to a remote server, and address SC#1/SC#3/SC#4: acquire data from a remote location, we needed a way to pull and push data to a server from both Raspberry Pi and personal computer. We used UWC ISAK Japan Weather API as our server: a centralized database for values such as temperature, humidity and atmospheric pressure measured regularly on campus. In order to communicate with the server, we used an HTTP python library called Requests, which enable us to get and post data with simple coding.
+To solve SC#5: data backup to a remote server, and address SC#1/SC#3/SC#4: acquire data from a remote location, we needed a way to pull and push data to a server from both Raspberry Pi and personal computer. We used UWC ISAK Japan Weather API as our server: a centralized database for values such as temperature, humidity and atmospheric pressure measured regularly on campus. In order to communicate with the server, we used an HTTP python library called Requests, which enable us to get and post data with simple coding[^9].
 ```.py
 import requests
 
@@ -174,18 +177,14 @@ This is a basic representation of the upload procedure from the Raspberry Pi to 
 
 ### 2. Filtering using moving average
 
-Things to explain: a) what problem are you trying to solve (what success criteria), b) demonstrate your technical
-understanding, c) algorithmic thinking.
-
-Ex: To solve SC#1 I encounter the problem that the values from teh sensors are noisy due to the changes in the
+To solve SC#1 I encounter the problem that the values from teh sensors are noisy due to the changes in the
 temperature and other variables. I thougt about using an algorithm to filter the data and smooth it. After some reseach
 I decided to use the moving average. To make things more sustainable and organized I decided to use a function to
 implemented the moving average and placed it in a library.
 ```.py
 def moving_average(windowSize:int, x:list)->list:
-    # this function  has a purpose XXXX
-    #The inputs are XXXXX
-    # the output is xxxx
+    # this function has a purpose to increase the readability of the graph by regulating the oscillation of the data.
+    # the output is the smoothed list
     x_smoothed = []
     for i in range(0, len(x)-windowSize):
         x_section = x[i:i+windowSize]
@@ -195,11 +194,11 @@ def moving_average(windowSize:int, x:list)->list:
     return x_smoothed
 ```
 In the code above, we can see that the function signature includes two inputs, ```windowSize:int ``` is the size used for filtering which is of
-data type integer.....
+data type integer that decides the range of values which the function will generate averages from, into ```x_smoothed```. Another input is ```x```, which is a list that the function will apply the smoothing to. All the values in ```x``` are intended to be integers or floats.
 
 ### 3. Plotting x-axis with hourly format
 
-To solve SC#1/SC#4, that requires a visual representation of the data, we used matplotlib: a comprehensive library for creating static, animated, and interactive visualizations in Python[^9]. Its simple two dimentional graph plotting methods allow users to plot y values that correspond with the values in the x-axis. However, we realized that there are occasional skips in the data, so if we plot the graphs with equal intervals for x (time), the labels for the ticks will not indicate roundnumbers. We struggled for a long time to find a solution to this problem using our knowledge, so we conducted internet research and found out how to force the format of the x-axis into hourly ticks using methods in Matplotlib.
+To solve SC#1/SC#4, that requires a visual representation of the data, we used matplotlib: a comprehensive library for creating static, animated, and interactive visualizations in Python[^8]. Its simple two dimentional graph plotting methods allow users to plot y values that correspond with the values in the x-axis. However, we realized that there are occasional skips in the data, so if we plot the graphs with equal intervals for x (time), the labels for the ticks will not indicate roundnumbers. We struggled for a long time to find a solution to this problem using our knowledge, so we conducted internet research and found out how to force the format of the x-axis into hourly ticks using methods in Matplotlib.
 ```.py
 # ax: current x axis (plt.gca())
 
@@ -207,7 +206,7 @@ xfmt = matplotlib.dates.DateFormatter('%H:%M')
 ax.xaxis.set_major_formatter(xfmt)
 ax.xaxis.set_major_locator(HourLocator(byhour=range(0, 24, 1), tz=None))
 ```
-```DateFormatter``` is a formatter that will create ticks based on 
+```DateFormatter``` is a formatter that will create hourly ticks. ```set_major_formatter``` is a formatter that apply a format to major ticks in the x-axis, that has been set to hourly ticks in this program. ```HourLocator``` is a locator of labels which distribute the value from 0 to 24 with 1 step, which is applied through the use of ```set_major_locator```.
 
 # Criteria D: Functionality
 
