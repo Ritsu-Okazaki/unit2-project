@@ -196,6 +196,18 @@ def moving_average(windowSize:int, x:list)->list:
 In the code above, we can see that the function signature includes two inputs, ```windowSize:int ``` is the size used for filtering which is of
 data type integer.....
 
+### 3. Plotting x-axis with hourly format
+
+To solve SC#1/SC#4, that requires a visual representation of the data, we used matplotlib: a comprehensive library for creating static, animated, and interactive visualizations in Python[^9]. Its simple two dimentional graph plotting methods allow users to plot y values that correspond with the values in the x-axis. However, we realized that there are occasional skips in the data, so if we plot the graphs with equal intervals for x (time), the labels for the ticks will not indicate roundnumbers. We struggled for a long time to find a solution to this problem using our knowledge, so we conducted internet research and found out how to force the format of the x-axis into hourly ticks using methods in Matplotlib.
+```.py
+# ax: current x axis (plt.gca())
+
+xfmt = matplotlib.dates.DateFormatter('%H:%M')
+ax.xaxis.set_major_formatter(xfmt)
+ax.xaxis.set_major_locator(HourLocator(byhour=range(0, 24, 1), tz=None))
+```
+```DateFormatter``` is a formatter that will create ticks based on 
+
 # Criteria D: Functionality
 
 A 7 min video demonstrating the proposed solution with narration
