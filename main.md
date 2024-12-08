@@ -133,7 +133,7 @@ For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-0
 | 19      | Take 7 min video demonstrating the proposed solution with narration                                         | To achieve clear and concise explanation of the project, its results, and its implementation | 2 hours       | December 8             | D         |
 
 
-# Criteria C: Development (around 1000 word max)
+# Criteria C: Development
 
 ## List of techniques used
 
@@ -210,4 +210,4 @@ ax.xaxis.set_major_locator(HourLocator(byhour=range(0, 24, 1), tz=None))
 
 # Criteria D: Functionality
 
-A 7 min video demonstrating the proposed solution with narration
+Youtube link: https://youtu.be/PFyvl0cmCiM
