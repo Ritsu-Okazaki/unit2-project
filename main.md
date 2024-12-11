@@ -23,6 +23,7 @@ Considering the budgetary constrains of the client and the hardware requirements
 [^7]:Real Python. “Python vs C++: Selecting the Right Tool for the Job.” Real Python, Real Python, 19 June 2021, https://realpython.com/python-vs-cpp/#memory-management. 
 [^8]:Matplotlib Development Team. "Matplotlib: Visualization with Python", https://matplotlib.org/
 [^9]:Kenneth Reitz. "Requests: HTTP for Humans", https://requests.readthedocs.io/en/latest/
+[^10]:Python Software Foundation. "time — Time access and conversions", https://docs.python.org/3/library/time.html
 
 1. The solution provides a visual representation of the Humidity, Temperature and atmospheric pressure values inside a dormitory (Local) and outside the house (Remote) for a period of minimum 48 hours. ```** [Issue tacled] **: My client's lack of environmental monitoring equipments has been resolved now. ```
 2. The local variables will be measure using a set of sensors around the dormitory.```** [Issue tacled] **: Client can get more accurate data for both indoor and outdoor conditions. ```
@@ -143,7 +144,7 @@ For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-0
 
 ### 1. API communication with remote server
 
-To solve SC#5: data backup to a remote server, and address SC#1/SC#3/SC#4: acquire data from a remote location, we needed a way to pull and push data to a server from both Raspberry Pi and personal computer. We used UWC ISAK Japan Weather API as our server: a centralized database for values such as temperature, humidity and atmospheric pressure measured regularly on campus. In order to communicate with the server, we used an HTTP python library called Requests, which enable us to get and post data with simple coding[^9].
+To solve **SC#5**: data backup to a remote server, and address **SC#1**/**SC#3**/SC#4: acquire data from a remote location, we needed a way to pull and push data to a server from both Raspberry Pi and personal computer. We used UWC ISAK Japan Weather API as our server: a centralized database for values such as temperature, humidity and atmospheric pressure measured regularly on campus. In order to communicate with the server, we used an HTTP python library called `Requests`, which enable us to get and post data with simple coding[^9].
 ```.py
 import requests
 
@@ -158,7 +159,7 @@ for r in readings:
     if r['sensor_id'] == 205:
         print((r['value'],r['datetime']))
 ```
-This is a basic representation of the pulling procedure to the personal computer from the server. The program first specifies the IP address of the server, then uses the .get method, which sends a GET request to the specified url. To the returned JSON response object, using .json() converts the body into a python object, in this case a dictionary. With appropriate arrangement of key access and "if" conditions, the program can acquire the desired data from a specific sensor or datetime.
+This is a basic representation of the pulling procedure to the personal computer from the server. The program first specifies the IP address of the server, then uses the `.get` method, which sends a GET request to the specified url. To the returned JSON response object, using `.json()` converts the body into a python object, in this case a dictionary. With appropriate arrangement of key access and "if" conditions, the program can acquire the desired data from a specific sensor or datetime.
 
 ```.py
 import requests
@@ -173,12 +174,45 @@ auth = {"Authorization": f"Bearer {cookie}"}
 new_record = {"sensor_id":203, "value":temp_dht, "datetime":now}  # temp_dht: value read from DHT11  now: datetime.now()
 answer = requests.post(f'http://{server_ip}/reading/new', json = new_record, headers = auth)
 ```
-This is a basic representation of the upload procedure from the Raspberry Pi to the server. Authorization is done using the .post method towards the login url, which will send a POST request with the username and password for a user which already had been registered to the server. Its answer provides an access token which can be used for the header for posting the sensor values. The posting of the data is also done using the .post method but now directed towards new readings url, taking the dictionary object which will be converted to json.
+This is a basic representation of the upload procedure from the Raspberry Pi to the server. Authorization is done using the `.post` method towards the login url, which will send a POST request with the username and password for a user which already had been registered to the server. Its answer provides an access token which can be used for the header for posting the sensor values. The posting of the data is also done using the `.post` method but now directed towards new readings url, taking the dictionary object which will be converted to json.
 
-### 2. Filtering using moving average
+### 2. Pushing sensor measurements data promptly
+
+To record 48 hours of consecutive data with an interval of one minute, we needed to have a program which sends measurements with accurate frequency. We first tried to use `time.sleep(60)` inside a loop, which suspends the following lines by the value given, just like below[^10].
+```.py
+while True:
+    # Sending process comes here
+    time.sleep(60)
+```
+However, we realized that with method, if the 'sending process' has its own processing time, the execution of the loop will be delayed by having extra elapsed time in addition to the `time.sleep(60)`. That will cause a shift in the interval which might accumulate into having less data than expected. So, we realized that we need to adjust the suspension, ideally dynamic. We thought of calculating the elapsed time during the 'sending process' and subtracting the value from `time.sleep(60)`, which looks like below.
+```.py
+while True:
+    start = time.time()
+    # Sending process comes here
+    end = time.time()
+    time.sleep(60-(end-start))
+```
+Because `time.time()` will give us the elapsed time from 1970 January 1st to the line executed in floating-point numbers[^10], calculating the difference between `start` and `end` will give us the accurate elapsed time. However, testing this code out revealed that the effects were trivial, and we thought it is not a fundamental approach to our objective, which was for the code to send measurements on time with consistent intervals. Therefore, we have changed our method and thought of a way to send the measurements corresponding to the conditions based on time, which is below.
+```.py
+while True:
+    now = datetime.now()  # gets the local time in datetime object
+    now = str(now) # coverts to string ("Year-Month-Date Hour:Minute:Second" format. Second is floating-point number")
+    nowsec = now.split()[1].split(":")[2]  # splits "Year-Month-Date Hour:Minute:Second" into two by space and takes the second one, then takes the third element divided by colons, which is 'seconds'
+    
+    if float(nowsec) <= 0.9:
+        # Sending process comes here
+        time.sleep(1)
+```
+Here, the program gets into the sending process only if the condition `float(nowsec) <= 0.9` is met. Variable `nowsec` is the 'seconds' element of the instantaneous timestamp acquired by `datetime.now()`. Overall, `float(nowsec) <= 0.9` condition determines that whenever the program is sending the measurements, its 'seconds' are a roundnumber (e.g. 15:01:00). If its not a roundnumber, the measurements would not be sent because the condition explicitly limits the 'seconds' to be 0.9, practically less than zero. `time.sleep(1)` at the end of the loop prevents the program from re-entering the measuring process again instantaneously after a send, by making the condition impossible to meet ({nowsec < 0.9} is unachievable when {nowsec = previous nowsec + 1}). This method allows the program to send measurements promptly each minute.
+
+### 3. Read values and timestamps of the recorded data in the server
+
+
+
+### 4. Filtering using moving average
 
 To solve SC#1 I encounter the problem that the values from teh sensors are noisy due to the changes in the
-temperature and other variables. I thougt about using an algorithm to filter the data and smooth it. After some reseach
+temperature and other variables. I thought about using an algorithm to filter the data and smooth it. After some reseach
 I decided to use the moving average. To make things more sustainable and organized I decided to use a function to
 implemented the moving average and placed it in a library.
 ```.py
@@ -196,17 +230,11 @@ def moving_average(windowSize:int, x:list)->list:
 In the code above, we can see that the function signature includes two inputs, ```windowSize:int ``` is the size used for filtering which is of
 data type integer that decides the range of values which the function will generate averages from, into ```x_smoothed```. Another input is ```x```, which is a list that the function will apply the smoothing to. All the values in ```x``` are intended to be integers or floats.
 
-### 3. Plotting x-axis with hourly format
 
-To solve SC#1/SC#4, that requires a visual representation of the data, we used matplotlib: a comprehensive library for creating static, animated, and interactive visualizations in Python[^8]. Its simple two dimentional graph plotting methods allow users to plot y values that correspond with the values in the x-axis. However, we realized that there are occasional skips in the data, so if we plot the graphs with equal intervals for x (time), the labels for the ticks will not indicate roundnumbers. We struggled for a long time to find a solution to this problem using our knowledge, so we conducted internet research and found out how to force the format of the x-axis into hourly ticks using methods in Matplotlib.
-```.py
-# ax: current x axis (plt.gca())
 
-xfmt = matplotlib.dates.DateFormatter('%H:%M')
-ax.xaxis.set_major_formatter(xfmt)
-ax.xaxis.set_major_locator(HourLocator(byhour=range(0, 24, 1), tz=None))
-```
-```DateFormatter``` is a formatter that will create hourly ticks. ```set_major_formatter``` is a formatter that apply a format to major ticks in the x-axis, that has been set to hourly ticks in this program. ```HourLocator``` is a locator of labels which distribute the value from 0 to 24 with 1 step, which is applied through the use of ```set_major_locator```.
+
+
+
 
 # Criteria D: Functionality
 
