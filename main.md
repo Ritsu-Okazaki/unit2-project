@@ -5,6 +5,8 @@
 ## Problem definition
 
 My client, L.Y., has developed a new interest in the fascinating world of hydroponics. He decided to keep one specimen of hydroponics in his room for personal use and potentially academic experiments. He occasionally puts the plant out to a different location in the campus when the room environment is too unsuitable. Yet after a week of closely paying attention to and maintaining proper care for the plant, he realized that the plant showed some alarming visual signs of weakening color and general shape. After some online investigation, he had determined that the possible cause of this problem was the temperature of the room where the plant was kept being too low, the humidity levels being too high or perhaps too low, and the atmospheric pressure being lower due to the high altitude. Based on this knowledge, he felt that he needed to carefully monitor and successfully manage those particular variables that, one way or another, had a strong influence on the growth and overall health of the plant. Additionally, he wants to determine when and how long the plant should be located in the alternate position. Overall, my client is concerned about the lack of environmental monitoring capabilities both indoors and outdoors, for the wellbeing of his plant.
+See the evidence: 
+[Gmail - Hydroponics Plant Health Monitoring.pdf](https://github.com/user-attachments/files/18095935/Gmail.-.Hydroponics.Plant.Health.Monitoring.pdf)
 
 ## Proposed Solution
 Considering the client requirements an adequate solution includes a low cost sensing device for humidity, temperature and atmospheric pressure, and a custom data script that process and anaysis the samples acquired. For a low cost sensing device an adequate alternative is the DHT11 sensor[^1] which is offered online for less than 5 USD and provides adequare precision and range for the client requirements (Temperature Range: 0°C to 50°C, Humidity Range: 20% to 90%). Similar devices such as the DHT22, AHT20 or the AM2301B [^2] have higher specifications, however the DHT11 uses a simple serial communication (SPI) rather than more eleborated protocols such as the I2C used by the alternatives. For the range, precision and accuracy required in this applicaiton the DHT11 provides the best compromise. Additionally, BME280 sensor is an affordable, satisfactory contender for providing high accuracy atmospheric pressure data through I2C communication, one of the required variables for the client (Pressure range: 300hPa to 1100 hPa)[^5]. Connecting the DHT11 sensor and BME280 sensor to a computer requires a device that provides a Serial Port communication. A cheap and often used alternative for prototyping is the Raspberry Pi 3b+ single-board computer [^3]. "The Raspberry Pi is a very cheap computer that runs Linux, but it also provides a set of GPIO (general purpose input/output) pins, allowing you to control electronic components for physical computing and explore the Internet of Things (IoT)."[^4]. In additon to the low cost of the Raspberry Pi (< 60USD), this device is programable and expandable, with features such as internet connection[^4]. I considered alternatives such different versions of the Raspberry Pi but their size and price make them a less adequate solution.
@@ -52,11 +54,11 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 
 ## Flow diagrams for algorithms
-![image](https://github.com/user-attachments/assets/ca365701-0527-4dfe-9d98-3040e1117661)
+![image](https://github.com/user-attachments/assets/89928934-a4fc-4c2b-b93c-39f473dcd20c)
 
 **Fig.2**  This flowchart describes the process of continuously reading sensor data, extracting relevant information, and sending it to a server for further processing. The process is repeated indefinitely, with a delay of 1 second between each iteration and a pause of 1 minute between each measurement.
 
-![image](https://github.com/user-attachments/assets/9ea1d165-8287-402b-b5ad-f920c1c2facc)
+![image](https://github.com/user-attachments/assets/28c7ca7a-17a9-4c2b-bb68-ae5aaa7db580)
 
 
 
@@ -66,7 +68,7 @@ _TOK Connection: To what extent does ```the use of data science``` in climate re
 
 
 
-![image](https://github.com/user-attachments/assets/6cdab434-2982-4260-8f15-9b59e9d2d0f0)
+![image](https://github.com/user-attachments/assets/ddf081ee-9468-42d3-a120-3253364ca50a)
 
 
 **Fig.4** The flowchart outlines a process for fetching data from a server, filtering it based on a specific sensor ID, and then plotting the filtered data over time. The data is processed and visualized using various libraries, and a smoothing technique is applied to the plot for better readability.
