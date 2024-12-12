@@ -142,8 +142,9 @@ For example, this data, {"sensor_id": 203, "value": 18.0, "datetime": "2024-12-0
 ## List of techniques used
 
 1. API communication with remote server
-2. Filtering using moving average
-3. Plotting x-axis with hourly format
+2. Pushing sensor measurements data promptly
+3. Read values and timestamps of the recorded data in the server
+4. Filtering using moving average
 
 ### 1. API communication with remote server
 
