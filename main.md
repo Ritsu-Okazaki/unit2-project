@@ -243,11 +243,11 @@ for r in readings:
             fdates.append(f"{hour}:{minute}:{second}")
             sensor_204.append(r['value'])
 ```
-The program iterates over `readings`, to isolate the measurement set that the program takes values, and repeat efficiently corresponding to how many datas are in the `readings`. 
+The program iterates over `readings` in a 'for' loop, to isolate the measurement set that the program takes values, and repeat efficiently corresponding to how many datas are in the `readings`. 
 ```.py
 if r['sensor_id'] == 204:
 ```
-This if statement is setting a condition that only if the `sensor_id` of the measurement is the desired one, it will move on to extract its value. By doing so, we do not experience mix-up in the values in which what sensor it is taken, and avoid a contamination in the data.
+This 'if' statement is setting a condition that only if the `sensor_id` of the measurement is the desired one, it will move on to extract its value. By doing so, we do not experience mix-up in the values in which what sensor it is taken, and avoid a contamination in the data.
 ```.py
 tf = timestamp_format(r['datetime'])
 ```
