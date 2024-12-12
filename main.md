@@ -211,7 +211,7 @@ Here, the program gets into the sending process only if the condition `float(now
 
 ### 3. Read values and timestamps of the recorded data in the server
 
-To meet **SC#1**/**SC#3**/**SC#4**/**SC#6**: organize analyze and predict the measurements, we needed to first process the data which the sensors have acquired to make them readable and suitable for analysis. Measurements are stored in the server in a JavaScript Object Notation or simply JSON format, a text-based method to measure data which is readable for humans and parsable for programs[^11], in a structure like below.
+To meet **SC#1**/**SC#3**/**SC#4**/**SC#6**: organize analyze and predict the measurements, we needed to first process the data which the sensors have acquired to make them readable and suitable for analysis. Measurements are stored in the server in a JavaScript Object Notation or simply JSON format, a text-based method to store data which is readable for humans and parsable for programs[^11], in a structure like below.
 ```
 {
   "readings": [
